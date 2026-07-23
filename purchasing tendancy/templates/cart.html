@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+{% block title %}Your Cart - AI E-Commerce{% endblock %}
+{% block content %}
+{% set category_imgs = {
+    'Beauty': 'https://images.unsplash.com/photo-1596462502278-27bfdc4033c8?auto=format&fit=crop&q=80&w=200',
+    'Books': 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=200',
+    'Sports': 'https://images.unsplash.com/photo-1517649763962-0c623066013b?auto=format&fit=crop&q=80&w=200',
+    'Home Decor': 'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?auto=format&fit=crop&q=80&w=200',
+    'Electronics': 'https://images.unsplash.com/photo-1526733160350-d12c8921027b?auto=format&fit=crop&q=80&w=200',
+    'Fashion': 'https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&q=80&w=200',
+    'Groceries': 'https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&q=80&w=200'
+} %}
+<div class="container-fluid py-5 px-lg-5">
+    <div class="row mb-5 align-items-end g-4">
+        <div class="col-md-8">
+            <h1 class="fw-800 text-contrast mb-1 tracking-tight"><i class="bi bi-bag-check-fill text-info me-3"></i>Review Your Selection</h1>
+            <p class="text-white opacity-75 fs-5 mb-0">You have <span class="text-info fw-bold">{{ items|length }}</span> items in your premium selection</p>
+        </div>
+        <div class="col-md-4 text-md-end">
+            <a href="/dashboard/buyer" class="btn btn-outline-white btn-lg rounded-pill px-4 border-opacity-25 hover-bg-white hover-text-black transition-all">
+                <i class="bi bi-arrow-left me-2"></i> RETURN TO STORE
+            </a>
+        </div>
+    </div>
+
+    <div class="row g-5">
+        <div class="col-lg-8">
+            {% if not items %}
+            <div class="card border-0 shadow-2xl text-center py-5 rounded-5" style="background: rgba(15, 23, 42, 0.4); border: 1px dashed rgba(255,255,255,0.1) !important;">
+                <div class="py-5">
+                    <div class="bg-white bg-opacity-5 p-4 rounded-circle d-inline-block mb-4">
+                        <i class="bi bi-cart-x display-1 text-muted opacity-25"></i>
+                    </div>
+                    <h2 class="text-white fw-800">Your Selection is Empty</h2>
+                    <p class="text-muted fs-5 mb-5 mx-auto" style="max-width: 400px;">Begin your journey by exploring our AI-curated product collections.</p>
+                    <a href="/dashboard/buyer" class="btn btn-info btn-lg px-5 py-3 rounded-pill fw-bold shadow-lg">EXPLORE COLLECTIONS</a>
+                </div>
+            </div>
+            {% else %}
+                {% for item in items %}
+                <div class="card border-0 shadow-lg mb-4 rounded-4 overflow-hidden group-hover-translate transition-all" style="background: rgba(15, 23, 42, 0.4); border: 1px solid rgba(255,255,255,0.05) !important;">
+                    <div class="card-body p-4">
+                        <div class="row align-items-center g-4">
+                            <div class="col-md-2 col-3">
+                                <div class="ratio ratio-1x1 rounded-3 overflow-hidden shadow-sm border border-white border-opacity-10 bg-black bg-opacity-20">
+                                    <img src="{{ category_imgs.get(item.product.category, 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200') }}" class="object-fit-cover" alt="{{ item.product.name }}">
+                                </div>
+                            </div>
+                            <div class="col-md-4 col-9">
+                                <span class="badge bg-white bg-opacity-5 text-muted extra-small mb-1 border border-white border-opacity-10">{{ item.product.category|upper }}</span>
+                                <h5 class="fw-bold text-white mb-0 fs-5">{{ item.product.name }}</h5>
+                                <div class="text-info extra-small fw-bold mt-1"><i class="bi bi-clock-history me-1"></i> PRIORITY PROCESSING</div>
+                            </div>
+                            <div class="col-md-2 text-center d-none d-md-block">
+                                <p class="text-muted extra-small text-uppercase fw-800 mb-1" style="letter-spacing: 0.1em;">UNIT PRICE</p>
+                                <p class="fw-bold text-white mb-0">₹{{ "{:,.0f}".format(item.product.price) }}</p>
+                            </div>
+                            <div class="col-md-2 text-center col-6">
+                                <p class="text-muted extra-small text-uppercase fw-800 mb-1" style="letter-spacing: 0.1em;">QUANTITY</p>
+                                <div class="d-flex align-items-center justify-content-center gap-2">
+                                    <span class="badge bg-white bg-opacity-5 px-3 py-2 fs-6 border border-white border-opacity-10 text-white">{{ item.quantity }}</span>
+                                </div>
+                            </div>
+                            <div class="col-md-2 text-end col-6">
+                                <p class="text-white opacity-75 extra-small text-uppercase fw-800 mb-1" style="letter-spacing: 0.1em;">SUBTOTAL</p>
+                                <p class="fw-800 text-info fs-5 mb-0">₹{{ "{:,.0f}".format(item.subtotal) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-2xl p-4 rounded-5 sticky-top overflow-hidden" style="top: 100px; background: linear-gradient(145deg, #1e293b, #0f172a); border: 1px solid rgba(255,255,255,0.1) !important;">
+                <div class="position-absolute top-0 end-0 p-5 mt-n5 me-n5 bg-info bg-opacity-10 rounded-circle" style="width: 200px; height: 200px; filter: blur(50px);"></div>
+                
+                <h4 class="fw-800 text-white mb-5 text-center tracking-tight position-relative">ORDER SUMMARY</h4>
+                
+                <div class="d-flex justify-content-between mb-3 position-relative">
+                    <span class="text-muted fw-bold small">CART SUBTOTAL</span>
+                    <span class="text-white fw-bold">₹{{ "{:,.2f}".format(total) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-3 position-relative">
+                    <span class="text-muted fw-bold small">PROCESSING & TAX</span>
+                    <span class="text-white fw-bold">₹{{ "{:,.2f}".format(total * 0.12) }}</span>
+                </div>
+                <div class="d-flex justify-content-between mb-4 position-relative">
+                    <span class="text-muted fw-bold small">SHIPPING EST.</span>
+                    <span class="text-success fw-bold small">COMPLIMENTARY</span>
+                </div>
+                
+                <div class="px-3 py-4 rounded-4 bg-black bg-opacity-20 border border-white border-opacity-5 mb-5 position-relative">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="fs-5 text-white fw-800">TOTAL</span>
+                        <h2 class="fs-3 text-info fw-900 mb-0" style="text-shadow: 0 0 15px rgba(14, 165, 233, 0.4);">₹{{ "{:,.2f}".format(total * 1.12) }}</h2>
+                    </div>
+                </div>
+                
+                {% if not items %}
+                <button class="btn btn-secondary py-3 w-100 fw-bold fs-6 rounded-pill opacity-50" disabled>
+                    <i class="bi bi-lock-fill me-2"></i> CHECKOUT DISABLED
+                </button>
+                {% else %}
+                <a href="/checkout" class="btn btn-info py-3 w-100 fw-bold text-dark fs-6 rounded-pill shadow-lg hover-scale transition-all text-center">
+                    <i class="bi bi-shield-lock-fill me-2"></i> SECURE CHECKOUT
+                </a>
+                <div class="text-center mt-3">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349221.png" height="20" class="opacity-50 grayscale mx-1" alt="Visa">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349228.png" height="20" class="opacity-50 grayscale mx-1" alt="Mastercard">
+                    <img src="https://cdn-icons-png.flaticon.com/512/349/349230.png" height="20" class="opacity-50 grayscale mx-1" alt="Amex">
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.fw-800 { font-weight: 800; }
+.fw-900 { font-weight: 900; }
+.tracking-tight { letter-spacing: -0.025em; }
+.shadow-2xl { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6); }
+.grayscale { filter: grayscale(1); }
+.hover-scale:hover { transform: scale(1.02); }
+.group-hover-translate:hover { transform: translateY(-5px); border-color: rgba(14, 165, 233, 0.3) !important; }
+.extra-small { font-size: 0.75rem; font-weight: 600; }
+.hover-bg-white:hover { background: white !important; }
+.hover-text-black:hover { color: black !important; }
+.transition-all { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+</style>
+
+{% endblock %}

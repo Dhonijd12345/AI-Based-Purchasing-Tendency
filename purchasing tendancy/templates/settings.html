@@ -1,0 +1,226 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - Chrome Style{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --chrome-blue: #1a73e8;
+        --chrome-bg: #f8f9fa;
+        --chrome-text: #3c4043;
+        --chrome-border: #dadce0;
+    }
+    body {
+        background-color: var(--chrome-bg);
+        color: var(--chrome-text);
+        font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
+    .chrome-header {
+        background-color: var(--chrome-blue);
+        color: white;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    }
+    .chrome-search-input {
+        background: rgba(255,255,255,0.15);
+        border: none;
+        border-radius: 20px;
+        padding: 6px 20px 6px 40px;
+        color: white;
+        width: 400px;
+        font-size: 0.9rem;
+    }
+    .chrome-search-input::placeholder {
+        color: rgba(255,255,255,0.7);
+    }
+    .chrome-container {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    .chrome-sidebar {
+        width: 250px;
+        padding: 16px 0;
+        height: calc(100vh - 54px);
+        position: sticky;
+        top: 54px;
+    }
+    .chrome-nav-item {
+        padding: 10px 24px;
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        color: #5f6368;
+        text-decoration: none;
+        font-weight: 500;
+        border-radius: 0 20px 20px 0;
+        margin-right: 12px;
+        font-size: 0.9rem;
+    }
+    .chrome-nav-item:hover {
+        background: #e1e3e5;
+        color: #202124;
+    }
+    .chrome-nav-item.active {
+        background: #e8f0fe;
+        color: var(--chrome-blue);
+    }
+    .chrome-main {
+        flex: 1;
+        background: white;
+        min-height: calc(100vh - 54px);
+        padding: 40px 60px;
+        border-left: 1px solid var(--chrome-border);
+    }
+    .settings-group {
+        margin-bottom: 40px;
+    }
+    .settings-group h2 {
+        font-size: 1.25rem;
+        font-weight: 500;
+        margin-bottom: 20px;
+        color: #202124;
+    }
+    .settings-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 0;
+        border-bottom: 1px solid var(--chrome-border);
+    }
+    .settings-row:last-child {
+        border-bottom: none;
+    }
+    .settings-info h6 {
+        margin: 0;
+        font-weight: 500;
+        color: #202124;
+    }
+    .settings-info p {
+        margin: 4px 0 0;
+        font-size: 0.85rem;
+        color: #5f6368;
+    }
+</style>
+
+<div class="chrome-header">
+    <i class="bi bi-list fs-4" style="cursor: pointer;"></i>
+    <div class="fs-5 fw-bold">Settings</div>
+    <div class="ms-auto position-relative">
+        <i class="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-white opacity-50"></i>
+        <input type="text" class="chrome-search-input" placeholder="Search settings">
+    </div>
+</div>
+
+<div class="chrome-container">
+    <div class="chrome-sidebar">
+        <a href="#" class="chrome-nav-item active"><i class="bi bi-person-circle"></i> You and AI-Commerce</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-shield-check"></i> Privacy and security</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-palette"></i> Appearance</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-search"></i> Search engine</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-browser-chrome"></i> Default browser</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-power"></i> On startup</a>
+        <hr class="mx-3 opacity-25">
+        <a href="#" class="chrome-nav-item"><i class="bi bi-translate"></i> Languages</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-download"></i> Downloads</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-universal-access"></i> Accessibility</a>
+        <a href="#" class="chrome-nav-item"><i class="bi bi-arrow-counterclockwise"></i> Reset settings</a>
+    </div>
+
+    <div class="chrome-main">
+        <div class="settings-group">
+            <h2>You and AI-Commerce</h2>
+            <div class="settings-row" style="cursor: pointer;">
+                <div class="settings-info">
+                    <h6>AI-Commerce name and picture</h6>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+            <div class="settings-row">
+                <div class="settings-info">
+                    <h6>Sync and AI-Commerce services</h6>
+                    <p>Personalize your experience across devices</p>
+                </div>
+                <button class="btn btn-primary btn-sm px-4 rounded-pill">Turn on sync</button>
+            </div>
+            <div class="settings-row" style="cursor: pointer;" onclick="window.location.href='/profile'">
+                <div class="settings-info">
+                    <h6>Manage your AI-Commerce Account</h6>
+                    <p>Manage your account settings and security</p>
+                </div>
+                <i class="bi bi-box-arrow-up-right text-muted"></i>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h2>Autofill and passwords</h2>
+            <div class="settings-row" style="cursor: pointer;">
+                <div class="settings-info d-flex align-items-center gap-3">
+                    <i class="bi bi-key text-muted"></i>
+                    <h6>Password Manager</h6>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+            <div class="settings-row" style="cursor: pointer;">
+                <div class="settings-info d-flex align-items-center gap-3">
+                    <i class="bi bi-credit-card text-muted"></i>
+                    <h6>Payment methods</h6>
+                </div>
+                <i class="bi bi-chevron-right text-muted"></i>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h2>Appearance</h2>
+            <div class="settings-row" style="cursor: pointer;">
+                <div class="settings-info">
+                    <h6>Theme</h6>
+                    <p>Open AI-Commerce Web Store</p>
+                </div>
+                <i class="bi bi-box-arrow-up-right text-muted"></i>
+            </div>
+            <div class="settings-row">
+                <div class="settings-info">
+                    <h6>Show home button</h6>
+                    <p>Disabled</p>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" id="showHomeBtn">
+                </div>
+            </div>
+        </div>
+
+        <div class="settings-group">
+            <h2>System</h2>
+            <div class="settings-row">
+                <div class="settings-info">
+                    <h6>Continue running background apps when AI-Commerce is closed</h6>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            <div class="settings-row">
+                <div class="settings-info">
+                    <h6>Use graphics acceleration when available</h6>
+                </div>
+                <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" checked>
+                </div>
+            </div>
+            <div class="settings-row" style="cursor: pointer;">
+                <div class="settings-info">
+                    <h6>Open your computer's proxy settings</h6>
+                </div>
+                <i class="bi bi-box-arrow-up-right text-muted"></i>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

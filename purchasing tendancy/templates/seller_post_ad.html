@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Post Your Ad - AI Market Seller{% endblock %}
+{% block content %}
+<div class="row justify-content-center py-5">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4" style="background: #fff; color: #002f34;">
+            <h2 class="fw-bold mb-4 text-center" style="color: #002f34;">POST YOUR AD</h2>
+            <form action="/seller/post_ad" method="POST">
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase">Ad Title</label>
+                    <input type="text" name="name" class="form-control border-2 shadow-none" placeholder="What are you selling?" required style="border-color: #002f34;">
+                    <div class="form-text text-muted">Mention the key features of your item (e.g. brand, model, age, type)</div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase">Category</label>
+                    <select name="category" class="form-select border-2 shadow-none" required style="border-color: #002f34;">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Home Decor">Home Decor</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Beauty">Beauty</option>
+                        <option value="Books">Books</option>
+                        <option value="Groceries">Groceries</option>
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase">Set A Price</label>
+                    <div class="input-group border-2" style="border: 2px solid #002f34; border-radius: 4px;">
+                        <span class="input-group-text bg-white border-0">₹</span>
+                        <input type="number" name="price" class="form-control border-0 shadow-none" placeholder="Price" required>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold small text-uppercase">Stock Quantity</label>
+                    <input type="number" name="stock" class="form-control border-2 shadow-none" placeholder="How many items available?" required style="border-color: #002f34;">
+                </div>
+
+                <div class="text-center mt-5">
+                    <button type="submit" class="btn btn-dark btn-lg px-5 fw-bold" style="background: #002f34; border: none; border-radius: 4px; min-width: 250px;">Post Now</button>
+                    <p class="mt-3 small text-muted">By clicking Post Now, you agree to our <span class="fw-bold text-dark">Terms of Use</span></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    body { background-color: #f2f4f5!important; }
+    .form-control:focus, .form-select:focus {
+        border-color: #23e5db!important;
+    }
+</style>
+{% endblock %}

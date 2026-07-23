@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Models - AdminCore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #020617;
+            --secondary-bg: #0f172a;
+            --text-color: #f8fafc;
+            --text-muted: #cbd5e1;
+            --text-vibrant: #f1f5f9;
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+        body { background-color: var(--primary-bg); color: var(--text-color); font-family: 'Outfit', sans-serif; background-image: radial-gradient(circle at top right, rgba(244, 63, 94, 0.05), transparent 40%); }
+        .main-content { padding: 2rem; min-height: 100vh; }
+        .card { background-color: var(--secondary-bg); border: 1px solid var(--glass-border); border-radius: 16px; }
+        .model-status { width: 12px; height: 12px; border-radius: 50%; display: inline-block; margin-right: 8px; }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1">
+                        <li class="breadcrumb-item"><a href="/dashboard/admin" class="text-danger text-decoration-none">Dashboard</a></li>
+                        <li class="breadcrumb-item active text-muted" aria-current="page">AI Models</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-white">Neural Hub: AI Model Performance</h2>
+            </div>
+            <button class="btn btn-danger fw-bold rounded-pill shadow-sm"><i class="bi bi-cpu me-2"></i>Retrain All Models</button>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-8">
+                <div class="card p-4 mb-4">
+                    <h5 class="fw-bold text-white mb-4">Recommendation Accuracy (7-Day Rolling)</h5>
+                    <div id="accuracyChart" style="height: 350px;"></div>
+                </div>
+                <div class="card p-4">
+                    <h5 class="fw-bold text-white mb-4">Model Registry</h5>
+                    <div class="table-responsive">
+                        <table class="table table-dark table-sm mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">S.No</th>
+                                    <th>Model Name</th>
+                                    <th>Version</th>
+                                    <th>Status</th>
+                                    <th>Last Inference</th>
+                                    <th>Latency</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for model in models %}
+                                <tr>
+                                    <td class="text-center"><span class="text-info fw-bold small">{{ loop.index }}</span></td>
+                                    <td>{{ model.name }}</td>
+                                    <td>{{ '1.4.2' if loop.index == 1 else '2.1.0' if loop.index == 2 else '1.0.8' }}</td>
+                                    <td>
+                                        <span class="model-status {% if model.status == 'Active' %}bg-success{% else %}bg-warning{% endif %}"></span>
+                                        {{ model.status }}
+                                    </td>
+                                    <td>{{ '2ms ago' if loop.index == 1 else '15s ago' if loop.index == 2 else '1h ago' }}</td>
+                                    <td>{{ model.accuracy }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card p-4 mb-4">
+                    <h5 class="fw-bold text-white mb-3">System Resources</h5>
+                    <div class="mb-4">
+                    <div class="mb-4">
+                        <p class="text-info fw-900 text-uppercase tracking-widest mb-2" style="font-size: 0.85rem;">GPU Utilization Matrix</p>
+                        <h4 class="fw-900 text-danger fs-1 mb-3" style="text-shadow: 0 0 15px rgba(239, 68, 68, 0.4);">78%</h4>
+                        <div class="progress bg-white bg-opacity-5" style="height: 14px; border-radius: 20px; border: 1px solid rgba(239, 68, 68, 0.2);"><div class="progress-bar bg-danger shadow-lg" style="width: 78%"></div></div>
+                    </div>
+                    <div class="mb-0">
+                    <div class="mb-0">
+                        <p class="text-info fw-900 text-uppercase tracking-widest mb-2" style="font-size: 0.85rem;">Neural Memory (VRAM)</p>
+                        <h4 class="fw-900 text-info fs-2 mb-3" style="text-shadow: 0 0 15px rgba(14, 165, 233, 0.4);">12.4 / 16 GB</h4>
+                        <div class="progress bg-white bg-opacity-5" style="height: 14px; border-radius: 20px; border: 1px solid rgba(14, 165, 233, 0.2);"><div class="progress-bar bg-info shadow-lg" style="width: 77%"></div></div>
+                    </div>
+                </div>
+                <div class="card p-4 bg-danger shadow-2xl border-0 overflow-hidden position-relative">
+                    <div class="position-absolute top-0 end-0 p-3 opacity-10"><i class="bi bi-shield-slash fs-1"></i></div>
+                    <h5 class="fw-900 text-white mb-3 d-flex align-items-center"><i class="bi bi-broadcast-pin me-2 fs-4 animate-pulse"></i> HIGH-ALERT: AI SAFETY</h5>
+                    <p class="text-white fw-bold mb-0" style="line-height: 1.6; font-size: 0.95rem;">Detected critical anomaly in <span class="bg-warning text-black px-2 py-1 rounded fw-900 mx-1" style="box-shadow: 0 0 15px rgba(245, 158, 11, 0.6);">'Pricing_Strategy'</span>. Confidence falling below <span class="text-warning fw-900">70%</span>. Instant manual intervention required.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var trace = {
+            x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            y: [88, 89, 87, 91, 92, 94, 93],
+            type: 'scatter',
+            mode: 'lines+markers',
+            line: {color: '#f43f5e', width: 4},
+            fill: 'tozeroy',
+            fillcolor: 'rgba(244, 63, 94, 0.1)'
+        };
+        var layout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#ffffff', family: 'Outfit', weight: 600 },
+            margin: { t: 10, r: 10, b: 30, l: 30 },
+            xaxis: { gridcolor: 'rgba(255,255,255,0.05)' },
+            yaxis: { gridcolor: 'rgba(255,255,255,0.05)', range: [80, 100] }
+        };
+        Plotly.newPlot('accuracyChart', [trace], layout);
+    </script>
+</body>
+</html>

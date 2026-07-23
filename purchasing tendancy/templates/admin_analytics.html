@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics - AdminCore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <style>
+        :root {
+            --primary-bg: #020617;
+            --secondary-bg: #0f172a;
+            --accent-color: #0ea5e9;
+            --text-color: #f8fafc;
+            --text-muted: #cbd5e1;
+            --text-vibrant: #f1f5f9;
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+        body { background-color: var(--primary-bg); color: var(--text-color); font-family: 'Outfit', sans-serif; background-image: radial-gradient(circle at top right, rgba(14, 165, 233, 0.05), transparent 40%); }
+        .main-content { padding: 2rem; min-height: 100vh; }
+        .card { background-color: var(--secondary-bg); border: 1px solid var(--glass-border); border-radius: 16px; }
+        .text-muted { color: var(--text-muted) !important; opacity: 1 !important; }
+        .text-vibrant { color: var(--text-vibrant) !important; }
+        .extra-small { font-size: 0.8rem; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-5">
+            <div>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-1">
+                        <li class="breadcrumb-item"><a href="/dashboard/admin" class="text-info text-decoration-none">Dashboard</a></li>
+                        <li class="breadcrumb-item active text-muted" aria-current="page">Analytics Suite</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold text-white">Full Platform Intelligence</h2>
+            </div>
+            <div class="dropdown">
+                <button class="btn btn-outline-info fw-bold dropdown-toggle rounded-pill px-4" type="button" data-bs-toggle="dropdown">Last 30 Days</button>
+                <ul class="dropdown-menu dropdown-menu-dark">
+                    <li><a class="dropdown-item" href="#">Last 7 Days</a></li>
+                    <li><a class="dropdown-item" href="#">Last 90 Days</a></li>
+                    <li><a class="dropdown-item" href="#">Year to Date</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h5 class="fw-bold text-white mb-4">Revenue Growth Rate</h5>
+                    <div id="revenueChart" style="height: 300px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card p-4 h-100">
+                    <h5 class="fw-bold text-white mb-4">User Acquisition by Channel</h5>
+                    <div id="acquisitionChart" style="height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-12">
+                <div class="card p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold text-white mb-0">Demographic Insights</h5>
+                        <button class="btn btn-sm btn-outline-secondary">Export Detailed View</button>
+                    </div>
+                    <div class="row text-center border-top border-secondary pt-4 mt-2">
+                        <div class="col-md-3">
+                            <h2 class="fw-bold text-info">{{ metrics.daily_active }}</h2>
+                            <p class="text-muted small text-uppercase">Daily Active Users</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2 class="fw-bold text-success">$142</h2>
+                            <p class="text-muted small text-uppercase">Avg Order Value</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2 class="fw-bold text-warning">{{ metrics.bounce_rate }}</h2>
+                            <p class="text-muted small text-uppercase">Bounce Rate</p>
+                        </div>
+                        <div class="col-md-3">
+                            <h2 class="fw-bold text-danger">{{ metrics.avg_session }}</h2>
+                            <p class="text-muted small text-uppercase">Avg Session Duration</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var revData = [{
+            x: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+            y: [4500, 5200, 6100, 5800, 7200, 8500],
+            type: 'bar',
+            marker: { color: '#0ea5e9' }
+        }];
+        var acqData = [{
+            values: [40, 25, 20, 15],
+            labels: ['Organic', 'Social', 'Email', 'Referral'],
+            type: 'pie',
+            hole: 0.4,
+            marker: { colors: ['#0ea5e9', '#34d399', '#fbbf24', '#f43f5e'] }
+        }];
+        var layout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { color: '#94a3b8', family: 'Outfit' },
+            margin: { t: 0, r: 0, b: 30, l: 30 }
+        };
+        Plotly.newPlot('revenueChart', revData, layout);
+        Plotly.newPlot('acquisitionChart', acqData, {...layout, margin: {t:0,r:0,b:0,l:0}});
+    </script>
+</body>
+</html>

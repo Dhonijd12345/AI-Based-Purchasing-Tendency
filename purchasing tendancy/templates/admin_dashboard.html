@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Private Admin Portal - AI E-Commerce</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-bg: #020617;
+            --secondary-bg: rgba(15, 23, 42, 0.7);
+            --sidebar-bg: #0a0f1c;
+            --accent-color: #fbbf24;
+            --accent-hover: #f59e0b;
+            --text-color: #f8fafc;
+            --text-muted: #cbd5e1;
+            --glass-border: rgba(255, 255, 255, 0.15);
+        }
+        body {
+            background-color: var(--primary-bg);
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        .sidebar {
+            width: 280px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--glass-border);
+            padding-top: 2.5rem;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+        .main-content {
+            margin-left: 280px;
+            padding: 2.5rem;
+            min-height: 100vh;
+            background-image: radial-gradient(circle at 100% 0%, rgba(251, 191, 36, 0.05), transparent 50%);
+        }
+        .nav-link {
+            color: #cbd5e1 !important;/* High visibility */
+            padding: 0.9rem 1.5rem;
+            margin: 0.3rem 1.2rem;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: rgba(251, 191, 36, 0.1);
+            color: var(--accent-color) !important;
+            transform: translateX(4px);
+        }
+        .nav-link i {
+            font-size: 1.25rem;
+        }
+        .card {
+            background-color: var(--secondary-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 4px 20px -5px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.7);
+        }
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+        }
+        .table {
+            color: #e2e8f0;
+            vertical-align: middle;
+        }
+        .table thead th {
+            color: #ffffff;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+            padding: 1rem 0.5rem;
+        }
+        .table tbody tr {
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .table tbody td {
+            background-color: transparent !important;
+            padding: 1.25rem 0.5rem;
+        }
+
+        /* Global visibility helpers */
+        .text-muted {
+            color: #cbd5e1 !important;
+            opacity: 1 !important;
+        }
+        .text-vibrant {
+            color: #f1f5f9 !important;
+        }
+        .extra-small {
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.025em;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column">
+        <div class="text-center mb-5 px-3">
+            <h3 class="fw-bold text-white mb-0"><i class="bi bi-shield-lock-fill text-warning me-2"></i>AdminCore</h3>
+            <span class="badge bg-warning text-dark mt-2 px-3 rounded-pill">Secure Access Only</span>
+            <div class="mt-2 text-info small fw-bold"><i class="bi bi-check2-all"></i> Project Status: Submission Ready</div>
+        </div>
+        
+        <ul class="nav flex-column mb-auto px-2">
+            <li class="small text-vibrant text-uppercase fw-800 mb-2 mt-4 ps-3" style="letter-spacing: 0.1em; opacity: 0.8;">Admin Core</li>
+            <li class="nav-item">
+                <a href="/dashboard/admin" class="nav-link active"><i class="bi bi-cpu-fill"></i> System Control</a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/users" class="nav-link"><i class="bi bi-people-fill"></i> User Directory</a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/inventory" class="nav-link"><i class="bi bi-box-fill"></i> Stock Registry</a>
+            </li>
+
+            <li class="small text-vibrant text-uppercase fw-800 mb-2 mt-4 ps-3" style="letter-spacing: 0.1em; opacity: 0.8;">Connected Portals</li>
+            <li class="nav-item">
+                <a href="/dashboard/buyer" class="nav-link text-info"><i class="bi bi-shop"></i> Buyer Portal</a>
+            </li>
+            <li class="nav-item">
+                <a href="/dashboard/seller" class="nav-link text-success"><i class="bi bi-tag-fill"></i> Seller Portal</a>
+            </li>
+
+            <li class="small text-vibrant text-uppercase fw-800 mb-2 mt-4 ps-3" style="letter-spacing: 0.1em; opacity: 0.8;">Intelligence</li>
+            <li class="nav-item">
+                <a href="/admin/ai_models" class="nav-link"><i class="bi bi-robot"></i> AI Engine</a>
+            </li>
+            <li class="nav-item">
+                <a href="/admin/analytics" class="nav-link"><i class="bi bi-bar-chart-fill"></i> Realtime Data</a>
+            </li>
+        </ul>
+
+        <div class="mt-auto px-4 pb-4">
+            <div class="dropdown">
+                <a href="#" class="d-flex align-items-center text-white text-decoration-none p-3 border border-white border-opacity-10 rounded-4 dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false" style="background: rgba(255,255,255,0.05); transition: background 0.3s; cursor: pointer;">
+                    <img src="https://ui-avatars.com/api/?name={{ user }}&background=fbbf24&color=000&rounded=true&bold=true" width="40" height="40" class="rounded-circle me-3 border border-warning border-opacity-25">
+                    <div>
+                        <h6 class="mb-0 fw-bold">{{ user }}</h6>
+                        <small class="text-muted">Master Admin</small>
+                    </div>
+                </a>
+                <ul class="dropdown-menu dropdown-menu-dark dropdown-menu-end shadow-lg border-white border-opacity-10 py-3 rounded-4" aria-labelledby="dropdownUser1" style="background: #0f172a;">
+                    <li><a class="dropdown-item py-2 px-4" href="/settings"><i class="bi bi-gear me-3"></i> System Settings</a></li>
+                    <li><a class="dropdown-item py-2 px-4" href="/profile"><i class="bi bi-person-badge me-3"></i> Profile Details</a></li>
+                    <li><hr class="dropdown-divider border-white border-opacity-10 mx-3"></li>
+                    <li><a class="dropdown-item py-2 px-4 text-danger fw-bold" href="/logout"><i class="bi bi-power me-3"></i> Termination</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-end mb-5 p-4 rounded-4 shadow-2xl" style="background: linear-gradient(90deg, rgba(251, 191, 36, 0.15), transparent); border-left: 5px solid var(--accent-color); backdrop-filter: blur(10px);">
+            <div>
+                <h2 class="fw-800 text-white mb-1 tracking-tight" style="text-shadow: 0 4px 12px rgba(0,0,0,0.3);">Administrative Intelligence</h2>
+                <p class="text-light opacity-75 mb-0">System status: <span class="text-success fw-bold">OPTIMAL</span> • Session for <span class="text-warning fw-bold">{{ user }}</span></p>
+            </div>
+            <div>
+                <button class="btn btn-warning fw-bold px-4 py-2 shadow-lg rounded-pill" onclick="showToast('Initiating secure report generation...', 'warning')">
+                    <i class="bi bi-file-earmark-pdf-fill me-2"></i>Generate Intelligence
+                </button>
+            </div>
+        </div>
+
+        <!-- KPIs -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-3">
+                <a href="/admin/users" class="text-decoration-none">
+                    <div class="card p-4 h-100 border-start border-warning border-4 hover-lift d-flex flex-column align-items-center justify-content-center text-center">
+                        <p class="text-warning text-uppercase small fw-bold mb-2" style="letter-spacing: 1px;">Total Users</p>
+                        <h2 id="live-user-count" class="fw-bold text-white mb-0" style="font-size: 2.2rem; word-break: break-all;">{{ user_count }}</h2>
+                        <div class="stat-icon bg-warning bg-opacity-10 text-warning mt-3">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/admin/analytics" class="text-decoration-none">
+                    <div class="card p-4 h-100 border-start border-info border-4 hover-lift d-flex flex-column align-items-center justify-content-center text-center">
+                        <p class="text-info text-uppercase small fw-bold mb-2" style="letter-spacing: 1px;">Total Revenue</p>
+                        <h2 id="live-total-revenue" class="fw-bold text-white mb-0" style="font-size: 2.2rem; word-break: break-all;">₹{{ "%.1f"|format(total_revenue/100000) }}L</h2>
+                        <div class="stat-icon bg-info bg-opacity-10 text-info mt-3">
+                            <i class="bi bi-currency-rupee"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/admin/inventory" class="text-decoration-none">
+                    <div class="card p-4 h-100 border-start border-success border-4 hover-lift d-flex flex-column align-items-center justify-content-center text-center">
+                        <p class="text-success text-uppercase small fw-bold mb-2" style="letter-spacing: 1px;">Transactions</p>
+                        <h2 id="live-trans-count" class="fw-bold text-white mb-0" style="font-size: 2.2rem; word-break: break-all;">{{ trans_count }}</h2>
+                        <div class="stat-icon bg-success bg-opacity-10 text-success mt-3">
+                            <i class="bi bi-receipt-cutoff"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3">
+                <a href="/admin/ai_models" class="text-decoration-none">
+                    <div class="card p-4 h-100 border-start border-danger border-4 hover-lift d-flex flex-column align-items-center justify-content-center text-center">
+                        <p class="text-danger text-uppercase small fw-bold mb-2" style="letter-spacing: 1px;">AI Segments</p>
+                        <h2 id="live-ai-segments" class="fw-bold text-white mb-0" style="font-size: 2.2rem; word-break: break-all;">12</h2>
+                        <div class="stat-icon bg-danger bg-opacity-10 text-danger mt-3">
+                            <i class="bi bi-diagram-3-fill"></i>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+        <div class="row g-4 mb-4">
+            <div class="col-md-7">
+                <div class="card p-4 h-100">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h5 class="fw-bold text-info mb-0">Platform Growth Trends</h5>
+                        <div class="badge bg-info bg-opacity-10 text-info px-3">Live Analysis</div>
+                    </div>
+                    <div id="communityChart" style="height: 380px; width: 100%;"></div>
+                </div>
+            </div>
+            <div class="col-md-5">
+                <div class="card h-100">
+                    <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold m-0 text-warning">RECENT ACTIVITIES <span class="badge bg-success ms-2 blink" style="font-size: 0.6rem;">LIVE</span></h5>
+                        <a href="/admin/analytics" class="text-warning text-decoration-none small">View All</a>
+                    </div>
+                    <div class="card-body p-4">
+                        <div id="live-activities-list" class="list-group list-group-flush bg-transparent">
+                            <!-- Activities will be injected here by Javascript -->
+                            <div class="text-center text-muted small mt-4">
+                                <div class="spinner-border spinner-border-sm text-warning me-2" role="status"></div>
+                                Syncing live intelligence...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var trace1 = {
+                x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                y: [120, 132, 101, 134, 90, 230, 210],
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'Revenue Trend',
+                line: {color: '#fbbf24', width: 3},
+                fill: 'tozeroy',
+                fillcolor: 'rgba(251, 191, 36, 0.1)'
+            };
+            var trace2 = {
+                x: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                y: [220, 182, 191, 234, 290, 330, 310],
+                type: 'scatter',
+                mode: 'lines+markers',
+                name: 'User Trend',
+                line: {color: '#0ea5e9', width: 3}
+            };
+            var data = [trace1, trace2];
+            
+            var layout = {
+                paper_bgcolor: 'rgba(0,0,0,0)',
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                font: { color: '#cbd5e1', family: 'Outfit' },
+                margin: { t: 20, r: 20, b: 30, l: 40 },
+                showlegend: true,
+                legend: { x: 0, y: 1 },
+                xaxis: { showgrid: false },
+                yaxis: { showgrid: true, gridcolor: 'rgba(255,255,255,0.05)' }
+            };
+            
+            Plotly.newPlot('communityChart', data, layout, {displayModeBar: false, responsive: true});
+        });
+
+        // Live Data Polling
+        function fetchLiveStats() {
+            const cacheBuster = new Date().getTime();
+            fetch('/api/admin/live_stats?t=' + cacheBuster, { cache: 'no-store' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) return;
+                    
+                    // Update KPIs
+                    document.getElementById('live-user-count').textContent = data.user_count;
+                    document.getElementById('live-trans-count').textContent = data.trans_count;
+                    document.getElementById('live-ai-segments').textContent = data.communities;
+                    
+                    // Format Revenue
+                    const revLakhs = (data.total_revenue / 100000).toFixed(1);
+                    document.getElementById('live-total-revenue').textContent = '₹' + revLakhs + 'L';
+                    
+                    // Update Activities
+                    const actsList = document.getElementById('live-activities-list');
+                    if (data.activities && data.activities.length > 0) {
+                        actsList.innerHTML = '';
+                        data.activities.forEach(act => {
+                            actsList.innerHTML += `
+                            <div class="list-group-item bg-transparent text-light border-secondary border-opacity-25 px-0 py-3 d-flex align-items-center gap-3" style="animation: fadeIn 0.5s;">
+                                <div class="stat-icon bg-${act.color} bg-opacity-20 text-${act.color} small">
+                                    <i class="bi ${act.icon}"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h6 class="mb-0 fw-bold small">${act.title}</h6>
+                                        <span class="extra-small text-vibrant">${act.time}</span>
+                                    </div>
+                                    <p class="text-muted extra-small mb-0 fw-bold">${act.desc}</p>
+                                </div>
+                            </div>`;
+                        });
+                    }
+                })
+                .catch(err => console.error("Error fetching live stats:", err));
+        }
+
+        // Add a simple fade-in animation and blinking dot for LIVE status
+        const style = document.createElement('style');
+        style.innerHTML = `
+            @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+            @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
+            .blink { animation: blink 2s infinite; }
+        `;
+        document.head.appendChild(style);
+
+        // Fetch immediately, then every 3 seconds
+        fetchLiveStats();
+        setInterval(fetchLiveStats, 3000);
+    </script>
+</body>
+</html>
